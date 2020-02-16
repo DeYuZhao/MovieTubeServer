@@ -36,4 +36,9 @@
       id = #{rateDetailPo.id}
   </update>
 
+  <select id="getMyRateByMovieId" resultType="Integer">
+    SELECT rate FROM t_rate_detail
+    WHERE user_id = #{userId} AND movie_id = #{movieId}
+  </select>
+
 </mapper>

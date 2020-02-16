@@ -14,6 +14,8 @@ public interface UserRole
         String USER = "ROLE_USER";
 
         String TEST = "ROLE_TEST";
+
+        String BLACKLIST = "ROLE_BLACKLIST";
     }
 
     interface RoleId
@@ -23,5 +25,8 @@ public interface UserRole
         Integer USER = 2;
 
         Integer TEST = 3;
+
+        Integer BLACKLIST = 4;
     }
 }
+

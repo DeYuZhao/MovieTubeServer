@@ -83,6 +83,12 @@
       user_id = #{userPo.userId}
   </update>
 
+  <update id="updateRoleIdByUserId">
+    UPDATE t_users u
+    SET u.role_id  = #{roleId}
+    WHERE user_id = #{userId}
+  </update>
+
   <select id="listAllSimpleUsers" resultMap="SimpleUserMap">
     SELECT user_id, username FROM t_users
   </select>

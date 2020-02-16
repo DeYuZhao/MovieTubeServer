@@ -50,15 +50,21 @@ public class RateServiceImpl implements RateService
     }
 
     @Override
-    public double getRateByMovieId(Long movieId)
+    public Double getLocalRateByMovieId(Long movieId)
     {
         RateStatisticPo rateStatisticPo = rateStatisticDao.getByMovieId(movieId);
         if (rateStatisticPo == null || rateStatisticPo.getTotalCount() == 0)
         {
-            return 0;
+            return 0.0;
         }
         BigDecimal totalRate = new BigDecimal(String.valueOf(rateStatisticPo.getTotalRate()));
         BigDecimal totalCount = new BigDecimal(String.valueOf(rateStatisticPo.getTotalCount()));
         return totalRate.divide(totalCount, 1, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    @Override
+    public Double getMyRateByMovieId(Integer userId, Long movieId)
+    {
+        return Optional.ofNullable(rateDetailDao.getMyRateByMovieId(userId, movieId)).orElse(-1.0);
     }
 }

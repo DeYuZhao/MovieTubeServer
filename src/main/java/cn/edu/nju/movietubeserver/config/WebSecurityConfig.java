@@ -99,6 +99,10 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter
             .antMatchers("/api/movie/**")
             .permitAll()
 
+            // 暂时允许开放adminAPI，用于测试
+            .antMatchers("/api/admin/**")
+            .permitAll()
+
             // 暂时允许开放commentAPI，用于测试
             .antMatchers("/api/comment/**")
             .permitAll()

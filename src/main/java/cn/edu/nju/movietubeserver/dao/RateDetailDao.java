@@ -18,4 +18,6 @@ public interface RateDetailDao
 
     int updateRateDetailById(@Param("rateDetailPo") RateDetailPo rateDetailPo);
 
+    Double getMyRateByMovieId(@Param("userId") Integer userId, @Param("movieId") Long movieId);
+
 }

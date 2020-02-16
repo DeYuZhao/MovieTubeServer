@@ -73,7 +73,7 @@ public class ExceptionResolver
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler({AccessDeniedException.class, UsernameNotFoundException.class})
+    @ExceptionHandler({AccessDeniedException.class})
     public RestApiResponse<Void> userException(final Throwable e)
     {
         log.error("用户异常 => {}", e.getMessage());
@@ -89,6 +89,15 @@ public class ExceptionResolver
         log.error("堆栈信息 => ", e);
         return RestApiResponseUtil.createErrorResponse(HttpStatus.BAD_REQUEST,
             "API [" + request.getRequestURI() + "] not existed");
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public RestApiResponse<Void> userNotFound(final Throwable e)
+    {
+        log.error("用户不存在 => {}", e.getMessage());
+        log.error("堆栈信息 => ", e);
+        return RestApiResponseUtil.createErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)

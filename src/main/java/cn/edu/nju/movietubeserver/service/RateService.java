@@ -13,5 +13,8 @@ public interface RateService
 
     int updateRateById(RateDetailPo rateDetailPo);
 
-    double getRateByMovieId(Long movieId);
+    Double getLocalRateByMovieId(Long movieId);
+
+    Double getMyRateByMovieId(Integer userId, Long movieId);
+
 }
