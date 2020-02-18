@@ -24,6 +24,6 @@
 1. 打包脚本后期再完善
 
 ## 访问地址 ##
-1. 前端地址：http://172.19.241.56:8000/#/MovieTube/user/login
-2. 代码质量检测前段地址：http://172.19.241.56:9002/project/issues?id=movieTubeFront&resolved=false
+1. 前端地址：http://172.19.241.56:8000/
+2. 代码质量检测前端地址：http://172.19.241.56:9002/project/issues?id=movieTubeFront&resolved=false
 3. 代码质量检测后端地址：http://172.19.241.56:9002/project/issues?id=movieTubeServer&resolved=false
