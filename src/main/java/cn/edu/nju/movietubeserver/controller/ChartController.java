@@ -6,6 +6,7 @@ import cn.edu.nju.movietubeserver.service.ChartService;
 import cn.edu.nju.movietubeserver.support.response.RestApiResponse;
 import cn.edu.nju.movietubeserver.support.response.RestApiResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -22,6 +23,7 @@ public class ChartController implements ChartAPI {
 
 
     @Override
+    @PreAuthorize("hasAuthority('chart:list')")
     @GetMapping(path = "/getCommentCountBarChart")
     public RestApiResponse<BarChartDto> getCommentCountBarChart(@RequestParam(defaultValue = "0") Integer userId)
     {

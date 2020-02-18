@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +43,7 @@ public class CommentController implements CommentAPI
     private UserService userService;
 
     @Override
+    @PreAuthorize("hasAuthority('comment:list')")
     @GetMapping(path = "/listRootCommentByMovieId")
     public RestApiResponse<Page<RootCommentDto>> listRootCommentByMovieId(
         @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "20") Integer pageSize,
@@ -54,6 +56,7 @@ public class CommentController implements CommentAPI
     }
 
     @Override
+    @PreAuthorize("hasAuthority('comment:list')")
     @GetMapping(path = "/listReplyCommentOfRootComment")
     public RestApiResponse<Page<ReplyCommentDto>> listReplyCommentOfRootComment(
         @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "20") Integer pageSize,
@@ -67,6 +70,7 @@ public class CommentController implements CommentAPI
     }
 
     @Override
+    @PreAuthorize("hasAuthority('comment:list')")
     @GetMapping(path = "/listUserPostComments")
     public RestApiResponse<Page<PostCommentDto>> listUserPostComments(@RequestParam(defaultValue = "0") Integer pageNo,
         @RequestParam(defaultValue = "30") Integer pageSize, @RequestParam Integer userId)
@@ -78,6 +82,7 @@ public class CommentController implements CommentAPI
     }
 
     @Override
+    @PreAuthorize("hasAuthority('comment:list')")
     @GetMapping(path = "/listUserReceiveComments")
     public RestApiResponse<Page<ReceiveCommentDto>> listUserReceiveComments(
         @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "30") Integer pageSize,
@@ -93,6 +98,7 @@ public class CommentController implements CommentAPI
     }
 
     @Override
+    @PreAuthorize("hasAuthority('comment:insert')")
     @PostMapping(path = "/insertComment")
     public RestApiResponse<Boolean> insertComment(@RequestBody CommentDto commentDto)
     {
@@ -103,6 +109,7 @@ public class CommentController implements CommentAPI
     }
 
     @Override
+    @PreAuthorize("hasAuthority('comment:delete')")
     @GetMapping(path = "/deleteByCommentId")
     public RestApiResponse<Boolean> deleteByCommentId(@RequestParam Long movieId, @RequestParam String commentId)
     {
@@ -111,7 +118,8 @@ public class CommentController implements CommentAPI
     }
 
     @Override
-    @RequestMapping(path = "/deleteByMovieId", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('comment:delete')")
+    @GetMapping(path = "/deleteByMovieId")
     public RestApiResponse<Boolean> deleteByMovieId(@RequestParam Long movieId)
     {
         commentService.deleteByMovieId(movieId);

@@ -7,6 +7,7 @@ import cn.edu.nju.movietubeserver.model.dto.UpdateUserDto;
 import cn.edu.nju.movietubeserver.model.dto.UserDto;
 import cn.edu.nju.movietubeserver.model.po.UserPo;
 import cn.edu.nju.movietubeserver.service.UserService;
+import cn.edu.nju.movietubeserver.support.exception.ServiceException;
 import cn.edu.nju.movietubeserver.support.jwt.JWTUtil;
 import cn.edu.nju.movietubeserver.support.response.RestApiResponse;
 import cn.edu.nju.movietubeserver.support.response.RestApiResponseUtil;
@@ -88,7 +89,9 @@ public class UserController implements UserAPI
             loginUserDto.setUsername(dbUser.getUsername());
         }
 
-        if (!userService.verifyPassword(loginUserDto.getPassword(), dbUser.getPassword()))
+        String realEncodedPassword =
+            Optional.ofNullable(dbUser).map(UserDto::getPassword).orElseThrow(() -> new ServiceException("用户不存在"));
+        if (!userService.verifyPassword(loginUserDto.getPassword(), realEncodedPassword))
         {
             return RestApiResponseUtil.createErrorResponse("密码错误");
         }

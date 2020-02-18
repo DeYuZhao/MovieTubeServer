@@ -5,6 +5,7 @@ import cn.edu.nju.movietubeserver.service.AdminService;
 import cn.edu.nju.movietubeserver.support.response.RestApiResponse;
 import cn.edu.nju.movietubeserver.support.response.RestApiResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -20,12 +21,14 @@ public class AdminController implements AdminAPI
     private AdminService adminService;
 
     @Override
+    @PreAuthorize("hasAuthority('user:block')")
     @PostMapping(path = "/closureUserByUserId")
     public RestApiResponse<Boolean> closureUserByUserId(@RequestParam Integer userId) {
         return RestApiResponseUtil.createSuccessResponse(adminService.closureUserByUserId(userId));
     }
 
     @Override
+    @PreAuthorize("hasAuthority('user:unblock')")
     @PostMapping(path = "/releaseUserByUserId")
     public RestApiResponse<Boolean> releaseUserByUserId(@RequestParam Integer userId) {
         return RestApiResponseUtil.createSuccessResponse(adminService.releaseUserByUserId(userId));

@@ -8,6 +8,7 @@ import cn.edu.nju.movietubeserver.support.response.RestApiResponse;
 import cn.edu.nju.movietubeserver.support.response.RestApiResponseUtil;
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class RateController implements RateAPI
     private RateService rateService;
 
     @Override
+    @PreAuthorize("hasAuthority('rate:insert')")
     @PostMapping(path = "/insertRate")
     public RestApiResponse<Integer> insertRate(@RequestBody RateDetailDto rateDetailDto)
     {
@@ -35,6 +37,7 @@ public class RateController implements RateAPI
     }
 
     @Override
+    @PreAuthorize("hasAuthority('rate:update')")
     @PostMapping(path = "/updateRateById")
     public RestApiResponse<Integer> updateRateById(@RequestBody RateDetailDto rateDetailDto)
     {
