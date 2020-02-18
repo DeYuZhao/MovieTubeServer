@@ -4,8 +4,9 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -43,12 +44,11 @@ public class WebMvcConfig implements WebMvcConfigurer
     {
         final FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
         final FastJsonConfig config = new FastJsonConfig();
-        converter.setSupportedMediaTypes(new ArrayList<MediaType>()
-        {{
-            add(MediaType.APPLICATION_JSON_UTF8);
-            add(MediaType.APPLICATION_FORM_URLENCODED);
-            add(MediaType.TEXT_HTML);
-        }});
+        final List<MediaType> supportedMediaTypeList =
+            Stream.of(MediaType.APPLICATION_JSON, MediaType.APPLICATION_FORM_URLENCODED, MediaType.TEXT_HTML)
+                .collect(Collectors.toList());
+        converter.setSupportedMediaTypes(supportedMediaTypeList);
+
         config.setSerializerFeatures(
             // 保留空的字段
             //SerializerFeature.WriteMapNullValue,

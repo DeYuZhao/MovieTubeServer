@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author zhaodeyu
  * @classname BarChartDto
- * @description TODO
+ * @description 图表DTO实体类
  * @date 2020-02-13 11:16
  */
 @Data

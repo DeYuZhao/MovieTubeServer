@@ -27,13 +27,13 @@ public class RSAUtil
 
     private static final String SECRETE_ALGORITHM = "RSA";
 
-    private static final String publicKeyHead = "-----BEGIN PUBLIC KEY-----";
+    private static final String PUBLIC_KEY_HEAD = "-----BEGIN PUBLIC KEY-----";
 
-    private static final String publicKeyTail = "-----END PUBLIC KEY-----";
+    private static final String PUBLIC_KEY_TAIL = "-----END PUBLIC KEY-----";
 
-    private static final String privateKeyHead = "-----BEGIN PRIVATE KEY-----";
+    private static final String PRIVATE_KEY_HEAD = "-----BEGIN PRIVATE KEY-----";
 
-    private static final String privateKeyTail = "-----END PRIVATE KEY-----";
+    private static final String PRIVATE_KEY_TAIL = "-----END PRIVATE KEY-----";
 
     /**
      * 生成密钥对
@@ -119,7 +119,7 @@ public class RSAUtil
     {
         try
         {
-            final byte[] decoded = this.replaceAndBase64Decode(pem, publicKeyHead, publicKeyTail);
+            final byte[] decoded = this.replaceAndBase64Decode(pem, PUBLIC_KEY_HEAD, PUBLIC_KEY_TAIL);
             final X509EncodedKeySpec spec = new X509EncodedKeySpec(decoded);
             final KeyFactory keyFactory = KeyFactory.getInstance(SECRETE_ALGORITHM);
             return keyFactory.generatePublic(spec);
@@ -141,7 +141,7 @@ public class RSAUtil
     {
         try
         {
-            final byte[] decoded = this.replaceAndBase64Decode(pem, privateKeyHead, privateKeyTail);
+            final byte[] decoded = this.replaceAndBase64Decode(pem, PRIVATE_KEY_HEAD, PRIVATE_KEY_TAIL);
             final PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decoded);
             final KeyFactory keyFactory = KeyFactory.getInstance(SECRETE_ALGORITHM);
             return keyFactory.generatePrivate(spec);

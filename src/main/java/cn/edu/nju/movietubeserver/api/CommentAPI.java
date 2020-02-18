@@ -15,7 +15,7 @@ import org.springframework.data.domain.Page;
  * @author leolu
  * @create 2019-12-25-20:17
  **/
-@Api(value = "评论模块的相关接口", description = "评论模块的相关接口")
+@Api(tags = {"comment-tag"})
 public interface CommentAPI
 {
 

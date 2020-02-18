@@ -11,7 +11,7 @@ import java.util.Map;
  * @author dc
  * @date 2020/2/8 15:18
  */
-@Api(value = "电影标签的相关接口", description = "电影标签的相关接口")
+@Api(tags = {"tag-tag"})
 public interface TagAPI
 {
 

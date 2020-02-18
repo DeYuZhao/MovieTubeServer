@@ -49,6 +49,8 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
     @Autowired
     private MovieService movieService;
 
+    private static final String KEYWORD_SUFFIX = ".keyword";
+
     @Override
     public BaseElasticSearchDao<CommentPo, String> getBaseElasticSearchDao()
     {
@@ -63,7 +65,7 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
             .must(QueryBuilders.matchQuery(Comment.MOVIE_ID, String.valueOf(movieId)))
             .must(QueryBuilders.matchQuery(Comment.PARENT_COMMENT_ID, ESIndexFieldValue.Comment.NO_PARENT_COMMENT_ID)))
             .withPageable(PageRequest.of(pageNo, pageSize))
-            .withSort(SortBuilders.fieldSort(Comment.CREATE_TIME + ".keyword").order(SortOrder.ASC))
+            .withSort(SortBuilders.fieldSort(Comment.CREATE_TIME + KEYWORD_SUFFIX).order(SortOrder.ASC))
             .build();
         return search(searchQuery).map(dto -> convertToRootComment(dto, simpleUserMap));
     }
@@ -76,7 +78,7 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
             .must(QueryBuilders.matchQuery(Comment.MOVIE_ID, String.valueOf(movieId)))
             .must(QueryBuilders.matchQuery(Comment.ROOT_COMMENT_ID, rootCommentId)))
             .withPageable(PageRequest.of(pageNo, pageSize))
-            .withSort(SortBuilders.fieldSort(Comment.CREATE_TIME + ".keyword").order(SortOrder.ASC))
+            .withSort(SortBuilders.fieldSort(Comment.CREATE_TIME + KEYWORD_SUFFIX).order(SortOrder.ASC))
             .build();
         return search(searchQuery).map(dto -> convertToReplyComment(dto, simpleUserMap));
     }
@@ -88,7 +90,7 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
         return termSearchByKeyword(Comment.FROM_USER_ID,
             String.valueOf(userId),
             PageRequest.of(pageNo, pageSize),
-            SortBuilders.fieldSort(Comment.CREATE_TIME + ".keyword")
+            SortBuilders.fieldSort(Comment.CREATE_TIME + KEYWORD_SUFFIX)
                 .order(SortOrder.DESC)).map(dto -> convertToPostComment(dto, simpleUserMap));
     }
 
@@ -99,7 +101,7 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
         return termSearchByKeyword(Comment.TO_USER_ID,
             String.valueOf(userId),
             PageRequest.of(pageNo, pageSize),
-            SortBuilders.fieldSort(Comment.CREATE_TIME + ".keyword")
+            SortBuilders.fieldSort(Comment.CREATE_TIME + KEYWORD_SUFFIX)
                 .order(SortOrder.DESC)).map(dto -> convertToReceiveComment(dto, simpleUserMap));
     }
 
@@ -161,7 +163,7 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
             .must(QueryBuilders.matchQuery(Comment.MOVIE_ID, String.valueOf(rootCommentDto.getMovieId())))
             .must(QueryBuilders.matchQuery(Comment.ROOT_COMMENT_ID, rootCommentDto.getId())))
             .withPageable(PageRequest.of(0, 2))
-            .withSort(SortBuilders.fieldSort(Comment.CREATE_TIME + ".keyword").order(SortOrder.ASC)) //不加keyword的话会报错
+            .withSort(SortBuilders.fieldSort(Comment.CREATE_TIME + KEYWORD_SUFFIX).order(SortOrder.ASC)) //不加keyword的话会报错
             .build();
         Page<CommentDto> replyCommentPage = search(searchQuery);
         rootCommentDto.setFromUsername(simpleUserMap.get(commentDto.getFromUserId()).getUsername());
@@ -211,7 +213,6 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
 
         // TODO
         // postCommentDto.setCommentURL("FIX ME");
-
         return postCommentDto;
     }
 
