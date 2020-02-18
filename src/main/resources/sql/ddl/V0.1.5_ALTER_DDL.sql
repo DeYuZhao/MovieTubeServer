@@ -1,0 +1,1 @@
+ALTER TABLE t_rate_detail ADD CONSTRAINT user_movie_unique UNIQUE(user_id, movie_id);

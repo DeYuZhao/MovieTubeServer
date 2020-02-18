@@ -12,8 +12,6 @@ import io.swagger.annotations.Api;
 public interface RateAPI
 {
 
-    RestApiResponse<Integer> insertRate(RateDetailDto rateDetailDto);
-
-    RestApiResponse<Integer> updateRateById(RateDetailDto rateDetailDto);
+    RestApiResponse<Integer> insertOrUpdateRate(RateDetailDto rateDetailDto);
 
 }

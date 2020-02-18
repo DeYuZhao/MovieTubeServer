@@ -9,9 +9,7 @@ import cn.edu.nju.movietubeserver.model.po.RateDetailPo;
 public interface RateService
 {
 
-    int insertRate(RateDetailPo rateDetailPo);
-
-    int updateRateById(RateDetailPo rateDetailPo);
+    int insertOrUpdateRate(RateDetailPo rateDetailPo);
 
     Double getLocalRateByMovieId(Long movieId);
 
