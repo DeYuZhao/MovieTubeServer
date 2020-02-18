@@ -11,7 +11,7 @@ import cn.edu.nju.movietubeserver.support.response.RestApiResponse;
 import cn.edu.nju.movietubeserver.support.response.RestApiResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +40,7 @@ public class MovieController implements MovieAPI
     private UserService userService;
 
     @Override
+    @PreAuthorize("hasAuthority('movie:list')")
     @GetMapping(path = "/getCountOfMoviesByTag")
     public RestApiResponse<Long> getCountOfMoviesByTag(@RequestParam String tag)
     {
@@ -49,6 +50,7 @@ public class MovieController implements MovieAPI
     }
 
     @Override
+    @PreAuthorize("hasAuthority('movie:list')")
     @GetMapping(path = "/listByTag")
     public RestApiResponse<Page<MovieDto>> listByTag(@RequestParam String tag,
         @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "20") Integer pageSize)
@@ -60,6 +62,7 @@ public class MovieController implements MovieAPI
     }
 
     @Override
+    @PreAuthorize("hasAuthority('movie:list')")
     @GetMapping(path = "/getByMovieId")
     public RestApiResponse<MovieDto> getByMovieId(@RequestParam Long movieId)
     {
@@ -71,6 +74,7 @@ public class MovieController implements MovieAPI
     }
 
     @Override
+    @PreAuthorize("hasAuthority('movie:list')")
     @GetMapping(path = "/searchByKeyword")
     public RestApiResponse<Page<MovieDto>> searchByKeyword(@RequestParam(defaultValue = "0") Integer pageNo,
         @RequestParam(defaultValue = "20") Integer pageSize, @RequestParam String keyword)

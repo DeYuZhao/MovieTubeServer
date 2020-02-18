@@ -4,22 +4,15 @@ import cn.edu.nju.movietubeserver.constant.ESIndexFieldKey.Comment;
 import cn.edu.nju.movietubeserver.dao.CommentDao;
 import cn.edu.nju.movietubeserver.model.dto.BarChartDto;
 import cn.edu.nju.movietubeserver.model.dto.CommentDto;
-import cn.edu.nju.movietubeserver.model.dto.PostCommentDto;
 import cn.edu.nju.movietubeserver.model.po.CommentPo;
 import cn.edu.nju.movietubeserver.service.ChartService;
 import cn.edu.nju.movietubeserver.service.CommentService;
 import cn.edu.nju.movietubeserver.support.elasticsearch.dao.BaseElasticSearchDao;
 import cn.edu.nju.movietubeserver.support.elasticsearch.service.impl.BaseElasticSearchServiceImpl;
 import cn.edu.nju.movietubeserver.utils.DateUtil;
-import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.RangeQueryBuilder;
-import org.elasticsearch.index.query.WildcardQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,7 +21,7 @@ import java.util.*;
 /**
  * @author zhaodeyu
  * @classname ChartServiceImpl
- * @description TODO
+ * @description 图表的相关接口实现
  * @date 2020-02-13 11:14
  */
 @Service

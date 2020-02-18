@@ -8,6 +8,7 @@ import cn.edu.nju.movietubeserver.support.response.RestApiResponseUtil;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,7 @@ public class TagController implements TagAPI
     private TagService tagService;
 
     @Override
+    @PreAuthorize("hasAuthority('tag:list')")
     @GetMapping(path = "/getTagsMap")
     public RestApiResponse<Map<String, List<TagDto>>> getTagsMap()
     {

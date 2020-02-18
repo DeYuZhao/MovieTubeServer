@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiParam;
  * @author leolu
  * @create 2020-02-12-11:56
  **/
-@Api(value = "管理员的相关接口", description = "管理员的相关接口")
+@Api(tags = {"admin-tag"})
 public interface AdminAPI
 {
 

@@ -8,7 +8,7 @@ import io.swagger.annotations.Api;
  * @author dc
  * @date 2020/2/11 21:32
  */
-@Api(value = "打分模块的相关接口", description = "打分模块的相关接口")
+@Api(tags = {"rate-tag"})
 public interface RateAPI
 {
 

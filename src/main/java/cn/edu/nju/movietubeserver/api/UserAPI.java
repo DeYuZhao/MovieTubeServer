@@ -15,7 +15,7 @@ import org.springframework.validation.BindingResult;
  * @author dc
  * @date 2019/12/21 21:23
  */
-@Api(value = "用户模块的相关接口", description = "用户模块的相关接口")
+@Api(tags = {"user-tag"})
 public interface UserAPI
 {
 

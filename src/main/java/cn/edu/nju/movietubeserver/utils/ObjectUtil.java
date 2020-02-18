@@ -11,6 +11,11 @@ import java.util.Objects;
 public class ObjectUtil
 {
 
+    private ObjectUtil()
+    {
+
+    }
+
     public static <S, T> T deepCloneByJson(S source, Class<T> targetClazz)
     {
         Objects.requireNonNull(source, "source object must not be null");

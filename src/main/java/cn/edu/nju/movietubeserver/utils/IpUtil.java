@@ -13,11 +13,16 @@ import org.apache.commons.lang3.StringUtils;
 @Slf4j
 public class IpUtil
 {
-    private final static String UNKNOWN = "unknown";
+    private static final String UNKNOWN = "unknown";
 
-    private final static String LOCALHOST_IPV4 = "127.0.0.1";
+    private static final String LOCALHOST_IPV4 = "127.0.0.1";
 
-    private final static String LOCALHOST_IPV6 = "0:0:0:0:0:0:0:1";
+    private static final String LOCALHOST_IPV6 = "0:0:0:0:0:0:0:1";
+
+    private IpUtil()
+    {
+
+    }
 
     /**
      * 获取登录用户的IP地址

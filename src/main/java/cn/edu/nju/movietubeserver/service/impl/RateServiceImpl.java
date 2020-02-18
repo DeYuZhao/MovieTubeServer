@@ -65,6 +65,9 @@ public class RateServiceImpl implements RateService
     @Override
     public Double getMyRateByMovieId(Integer userId, Long movieId)
     {
-        return Optional.ofNullable(rateDetailDao.getMyRateByMovieId(userId, movieId)).orElse(-1.0);
+        return Optional.ofNullable(rateDetailDao.getMyRateByMovieId(userId, movieId))
+            .map(Double::valueOf)
+            .orElse(-1.0);
     }
+
 }
