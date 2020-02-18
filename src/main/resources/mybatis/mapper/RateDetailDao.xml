@@ -18,23 +18,17 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
   </resultMap>
 
-  <insert id="insertRateDetail" parameterType="RateDetailPo">
+  <insert id="insertOrUpdateRateDetail" parameterType="RateDetailPo">
     INSERT INTO t_rate_detail (<include refid="all_columns" />)
     VALUES
     (
       #{rateDetailPo.id}, #{rateDetailPo.userId}, #{rateDetailPo.movieId},
       #{rateDetailPo.rate}, #{rateDetailPo.createTime}, #{rateDetailPo.updateTime}
     )
+    ON DUPLICATE KEY UPDATE
+    rate = #{rateDetailPo.rate},
+    update_time = #{rateDetailPo.updateTime}
   </insert>
-
-  <update id="updateRateDetailById" parameterType="RateDetailPo">
-    UPDATE t_rate_detail
-    SET
-      rate = #{rateDetailPo.rate},
-      update_time = #{rateDetailPo.updateTime}
-    WHERE
-      id = #{rateDetailPo.id}
-  </update>
 
   <select id="getMyRateByMovieId" resultType="Integer">
     SELECT rate FROM t_rate_detail

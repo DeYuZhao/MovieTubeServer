@@ -14,9 +14,7 @@ import org.springframework.stereotype.Repository;
 public interface RateDetailDao
 {
 
-    int insertRateDetail(@Param("rateDetailPo") RateDetailPo rateDetailPo);
-
-    int updateRateDetailById(@Param("rateDetailPo") RateDetailPo rateDetailPo);
+    int insertOrUpdateRateDetail(@Param("rateDetailPo") RateDetailPo rateDetailPo);
 
     Integer getMyRateByMovieId(@Param("userId") Integer userId, @Param("movieId") Long movieId);
 

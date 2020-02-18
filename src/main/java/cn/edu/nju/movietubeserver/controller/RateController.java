@@ -28,20 +28,11 @@ public class RateController implements RateAPI
 
     @Override
     @PreAuthorize("hasAuthority('rate:insert')")
-    @PostMapping(path = "/insertRate")
-    public RestApiResponse<Integer> insertRate(@RequestBody RateDetailDto rateDetailDto)
+    @PostMapping(path = "/insertOrUpdateRate")
+    public RestApiResponse<Integer> insertOrUpdateRate(@RequestBody RateDetailDto rateDetailDto)
     {
         rateDetailDto.setCreateTime(LocalDateTime.now());
         rateDetailDto.setUpdateTime(LocalDateTime.now());
-        return RestApiResponseUtil.createSuccessResponse(rateService.insertRate(RateDetailPo.valueOf(rateDetailDto)));
-    }
-
-    @Override
-    @PreAuthorize("hasAuthority('rate:update')")
-    @PostMapping(path = "/updateRateById")
-    public RestApiResponse<Integer> updateRateById(@RequestBody RateDetailDto rateDetailDto)
-    {
-        rateDetailDto.setUpdateTime(LocalDateTime.now());
-        return RestApiResponseUtil.createSuccessResponse(rateService.updateRateById(RateDetailPo.valueOf(rateDetailDto)));
+        return RestApiResponseUtil.createSuccessResponse(rateService.insertOrUpdateRate(RateDetailPo.valueOf(rateDetailDto)));
     }
 }

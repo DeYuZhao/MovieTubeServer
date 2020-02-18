@@ -29,22 +29,11 @@ public class RateServiceImpl implements RateService
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int insertRate(RateDetailPo rateDetailPo)
+    public int insertOrUpdateRate(RateDetailPo rateDetailPo)
     {
-        if (rateDetailDao.insertRateDetail(rateDetailPo) <= 0)
+        if (rateDetailDao.insertOrUpdateRateDetail(rateDetailPo) <= 0)
         {
             throw new ServiceException("插入电影评分记录失败");
-        }
-        return rateStatisticDao.insertOrUpdateRateStatistic(rateDetailPo);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public int updateRateById(RateDetailPo rateDetailPo)
-    {
-        if (rateDetailDao.updateRateDetailById(rateDetailPo) <= 0)
-        {
-            throw new ServiceException(String.format("电影评分记录不存在，id为[%d]", rateDetailPo.getId()));
         }
         return rateStatisticDao.insertOrUpdateRateStatistic(rateDetailPo);
     }
@@ -65,9 +54,7 @@ public class RateServiceImpl implements RateService
     @Override
     public Double getMyRateByMovieId(Integer userId, Long movieId)
     {
-        return Optional.ofNullable(rateDetailDao.getMyRateByMovieId(userId, movieId))
-            .map(Double::valueOf)
-            .orElse(-1.0);
+        return Optional.ofNullable(rateDetailDao.getMyRateByMovieId(userId, movieId)).map(Double::valueOf).orElse(-1.0);
     }
 
 }
