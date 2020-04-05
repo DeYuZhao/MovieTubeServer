@@ -32,12 +32,14 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class ExceptionResolver
 {
 
+    public static final String ERROR_STACK_MESSAGE = "堆栈信息 => ";
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public RestApiResponse<Void> validatorException(final ConstraintViolationException e)
     {
         log.error("验证实体异常 => {}", e.getMessage());
-        log.error("堆栈信息 => ", e);
+        log.error(ERROR_STACK_MESSAGE, e);
         final String message =
             e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(","));
         return RestApiResponseUtil.createErrorResponse(HttpStatus.BAD_REQUEST, message);
@@ -48,7 +50,7 @@ public class ExceptionResolver
     public RestApiResponse<Void> serviceException(final Throwable e)
     {
         log.error("服务异常 => {}", e.getMessage());
-        log.error("堆栈信息 => ", e);
+        log.error(ERROR_STACK_MESSAGE, e);
         return RestApiResponseUtil.createErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
@@ -57,7 +59,7 @@ public class ExceptionResolver
     public RestApiResponse<Void> databaseException(final Throwable e)
     {
         log.error("数据库操作异常 => {}", e.getMessage());
-        log.error("堆栈信息 => ", e);
+        log.error(ERROR_STACK_MESSAGE, e);
         return RestApiResponseUtil.createErrorResponse(HttpStatus.BAD_REQUEST,
             Optional.ofNullable(e.getMessage()).orElse(ErrorMessage.DATABASE_ERROR_MESSAGE));
     }
@@ -67,7 +69,7 @@ public class ExceptionResolver
     public RestApiResponse<Void> authException(final Throwable e)
     {
         log.error("身份验证异常 => {}", e.getMessage());
-        log.error("堆栈信息 => ", e);
+        log.error(ERROR_STACK_MESSAGE, e);
         return RestApiResponseUtil.createErrorResponse(HttpStatus.UNAUTHORIZED,
             ErrorMessage.DEFAULT_UNAUTHORIZED_MESSAGE);
     }
@@ -77,7 +79,7 @@ public class ExceptionResolver
     public RestApiResponse<Void> userException(final Throwable e)
     {
         log.error("用户异常 => {}", e.getMessage());
-        log.error("堆栈信息 => ", e);
+        log.error(ERROR_STACK_MESSAGE, e);
         return RestApiResponseUtil.createErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
@@ -86,7 +88,7 @@ public class ExceptionResolver
     public RestApiResponse<Void> apiNotFound(final Throwable e, final HttpServletRequest request)
     {
         log.error("API 不存在 => {}", e.getMessage());
-        log.error("堆栈信息 => ", e);
+        log.error(ERROR_STACK_MESSAGE, e);
         return RestApiResponseUtil.createErrorResponse(HttpStatus.BAD_REQUEST,
             "API [" + request.getRequestURI() + "] not existed");
     }
@@ -96,7 +98,7 @@ public class ExceptionResolver
     public RestApiResponse<Void> userNotFound(final Throwable e)
     {
         log.error("用户不存在 => {}", e.getMessage());
-        log.error("堆栈信息 => ", e);
+        log.error(ERROR_STACK_MESSAGE, e);
         return RestApiResponseUtil.createErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
@@ -105,7 +107,7 @@ public class ExceptionResolver
     public RestApiResponse<Void> methodNotSupport(final Throwable e)
     {
         log.error("方法异常 => {}", e.getMessage());
-        log.error("堆栈信息 => ", e);
+        log.error(ERROR_STACK_MESSAGE, e);
         return RestApiResponseUtil.createErrorResponse(HttpStatus.METHOD_NOT_ALLOWED,
             ErrorMessage.DEFAULT_METHOD_NOT_ALLOWED_MESSAGE);
     }
@@ -115,7 +117,7 @@ public class ExceptionResolver
     public RestApiResponse<Void> globalException(final HttpServletRequest request, final Throwable e)
     {
         log.error("全局异常 => {}", e.getMessage());
-        log.error("堆栈信息 => ", e);
+        log.error(ERROR_STACK_MESSAGE, e);
         return RestApiResponseUtil.createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR,
             String.format("API [ %s ] internal server error => %s", request.getRequestURI(), e.getMessage()));
     }
