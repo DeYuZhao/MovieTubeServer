@@ -145,8 +145,7 @@ public class UserController implements UserAPI
     @GetMapping(path = "/logout")
     public RestApiResponse<Void> logout(final Principal user)
     {
-        // TODO 让token失效
-        // 可以在前端清除token
+        // 让token失效，可以在前端清除token
         return RestApiResponseUtil.createSuccessResponse();
     }
 

@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiParam;
 /**
  * @author zhaodeyu
  * @classname ChartAPI
- * @description TODO
+ * @description
  * @date 2020-02-13 11:12
  */
 @Api(tags = {"chart-tag"})

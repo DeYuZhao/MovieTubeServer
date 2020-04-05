@@ -2,40 +2,40 @@ package cn.edu.nju.movietubeserver.constant;
 
 /**
  * @author dc
- * @date 2019/12/24 9:46
+ * @date 2020/4/5 14:04
  *
  * 存放ElasticSearch索引的schema
  */
-public interface ESIndexFieldKey
+public final class ESIndexFieldKey
 {
 
-    interface Movie
+    public static final class Movie
     {
-        String ID = "id";
+        public static final String ID = "id";
 
-        String TITLE = "title";
+        public static final String TITLE = "title";
 
-        String RATE = "rate";
+        public static final String RATE = "rate";
 
-        String STAR = "star";
+        public static final String STAR = "star";
 
-        String DIRECTORS = "directors";
+        public static final String DIRECTORS = "directors";
 
-        String CASTS = "casts";
+        public static final String CASTS = "casts";
     }
 
-    interface Comment
+    public static final class Comment
     {
-        String MOVIE_ID = "movieId";
+        public static final String MOVIE_ID = "movieId";
 
-        String TO_USER_ID = "toUserId";
+        public static final String TO_USER_ID = "toUserId";
 
-        String FROM_USER_ID = "fromUserId";
+        public static final String FROM_USER_ID = "fromUserId";
 
-        String PARENT_COMMENT_ID = "parentCommentId";
+        public static final String PARENT_COMMENT_ID = "parentCommentId";
 
-        String ROOT_COMMENT_ID = "rootCommentId";
+        public static final String ROOT_COMMENT_ID = "rootCommentId";
 
-        String CREATE_TIME = "createTime";
+        public static final String CREATE_TIME = "createTime";
     }
 }

@@ -31,6 +31,10 @@
     <pagehelper.version>1.2.9</pagehelper.version>
     <swagger2.version>2.9.2</swagger2.version>
     <swagger-ui.version>2.9.2</swagger-ui.version>
+    <swagger-model.version>1.5.21</swagger-model.version>
+    <jaxb.version>2.3.0</jaxb.version>
+    <javax-activation>1.1.1</javax-activation>
+    <jacoco-maven-plugin.version>0.7.8</jacoco-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -174,7 +178,7 @@
     <dependency>
       <groupId>io.swagger</groupId>
       <artifactId>swagger-models</artifactId>
-      <version>1.5.21</version>
+      <version>${swagger-model.version}</version>
     </dependency>
 
     <dependency>
@@ -186,25 +190,25 @@
     <dependency>
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
-      <version>2.3.0</version>
+      <version>${jaxb.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-impl</artifactId>
-      <version>2.3.0</version>
+      <version>${jaxb.version}</version>
     </dependency>
 
     <dependency>
       <groupId>com.sun.xml.bind</groupId>
       <artifactId>jaxb-core</artifactId>
-      <version>2.3.0</version>
+      <version>${jaxb.version}</version>
     </dependency>
 
     <dependency>
       <groupId>javax.activation</groupId>
       <artifactId>activation</artifactId>
-      <version>1.1.1</version>
+      <version>${javax-activation}</version>
     </dependency>
   </dependencies>
 
@@ -217,7 +221,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.8</version>
+        <version>${jacoco-maven-plugin.version}</version>
         <executions>
           <execution>
             <goals>

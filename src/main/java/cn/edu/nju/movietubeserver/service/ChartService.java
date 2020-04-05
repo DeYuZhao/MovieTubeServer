@@ -8,7 +8,7 @@ import cn.edu.nju.movietubeserver.support.elasticsearch.service.BaseElasticSearc
 /**
  * @author zhaodeyu
  * @classname ChartService
- * @description TODO
+ * @description
  * @date 2020-02-13 11:14
  */
 public interface ChartService extends BaseElasticSearchService<CommentDto, CommentPo, String> {

@@ -1,6 +1,6 @@
 package cn.edu.nju.movietubeserver.service.impl;
 
-import cn.edu.nju.movietubeserver.constant.ESIndexFieldKey.Movie;
+import cn.edu.nju.movietubeserver.constant.ESIndexFieldKey;
 import cn.edu.nju.movietubeserver.dao.MovieDao;
 import cn.edu.nju.movietubeserver.model.dto.MovieDto;
 import cn.edu.nju.movietubeserver.model.dto.TagDto;
@@ -53,7 +53,7 @@ public class MovieServiceImpl extends BaseElasticSearchServiceImpl<MovieDto, Mov
             .distinct()
             .toArray(String[]::new);
 
-        //TODO 去重
+        // 去重
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withIndices(tagIndexes)
             .withQuery(QueryBuilders.multiMatchQuery(searchKeyword, fieldNames).type(Type.BEST_FIELDS).tieBreaker(0.1f))
             .withPageable(PageRequest.of(pageNo, pageSize))
@@ -73,7 +73,7 @@ public class MovieServiceImpl extends BaseElasticSearchServiceImpl<MovieDto, Mov
             .distinct()
             .toArray(String[]::new);
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withIndices(tagIndexes)
-            .withQuery(QueryBuilders.termQuery(Movie.ID, movieId))
+            .withQuery(QueryBuilders.termQuery(ESIndexFieldKey.Movie.ID, movieId))
             .withPageable(PageRequest.of(0, 1))
             .build();
         return Optional.ofNullable(search(searchQuery).getContent().get(0));

@@ -3,10 +3,7 @@ package cn.edu.nju.movietubeserver.service;
 import cn.edu.nju.movietubeserver.model.domain.SimpleUser;
 import cn.edu.nju.movietubeserver.model.dto.UserDto;
 import cn.edu.nju.movietubeserver.model.po.UserPo;
-import cn.edu.nju.movietubeserver.support.exception.DBException;
-import cn.edu.nju.movietubeserver.support.exception.ServiceException;
 import java.util.List;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * @author dc
@@ -15,17 +12,40 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public interface UserService
 {
 
-    int insertUser(UserPo userPo)
-        throws DBException, ServiceException;
+    /**
+     * 添加用户，用于用户注册
+     * @param userPo
+     * @return
+     */
+    int insertUser(UserPo userPo);
 
+    /**
+     * 根据用户邮箱从数据库中查询用户
+     * @param email
+     * @return
+     */
     UserDto getUserByEmail(String email);
 
-    UserDto getUserByUsername(String username)
-        throws UsernameNotFoundException;
+    /**
+     * 根据用户名从数据库中查询用户
+     * @param username
+     * @return
+     */
+    UserDto getUserByUsername(String username);
 
-    int updateUserInfoById(UserPo userPo)
-        throws DBException, ServiceException;
+    /**
+     * 更新用户信息
+     * @param userPo
+     * @return
+     */
+    int updateUserInfoById(UserPo userPo);
 
+    /**
+     * 校验密码
+     * @param rawPassword
+     * @param encodedPassword
+     * @return
+     */
     boolean verifyPassword(String rawPassword, String encodedPassword);
 
     List<SimpleUser> listAllSimpleUsers();

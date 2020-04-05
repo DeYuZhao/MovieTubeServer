@@ -6,8 +6,6 @@ import cn.edu.nju.movietubeserver.service.AdminService;
 import cn.edu.nju.movietubeserver.support.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 /**
  * @author leolu
@@ -21,20 +19,28 @@ public class AdminServiceImpl implements AdminService
     private UserDao userDao;
 
     @Override
-    public boolean closureUserByUserId(@RequestParam Integer userId) {
-        try {
+    public boolean closureUserByUserId(Integer userId)
+    {
+        try
+        {
             return userDao.updateRoleIdByUserId(userId, UserRole.RoleId.BLACKLIST);
-        }catch (Throwable e) {
+        }
+        catch (Throwable e)
+        {
             throw new ServiceException("fail to closureRoleByUserId", e);
         }
 
     }
 
     @Override
-    public boolean releaseUserByUserId(@RequestParam Integer userId) {
-        try {
+    public boolean releaseUserByUserId(Integer userId)
+    {
+        try
+        {
             return userDao.updateRoleIdByUserId(userId, UserRole.RoleId.USER);
-        }catch (Throwable e) {
+        }
+        catch (Throwable e)
+        {
             throw new ServiceException("fail to releaseRoleByUserId", e);
         }
     }
