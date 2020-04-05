@@ -1,7 +1,6 @@
 package cn.edu.nju.movietubeserver.service.impl;
 
 import cn.edu.nju.movietubeserver.constant.ESIndexFieldKey;
-import cn.edu.nju.movietubeserver.constant.ESIndexFieldKey.Comment;
 import cn.edu.nju.movietubeserver.constant.ESIndexFieldValue;
 import cn.edu.nju.movietubeserver.dao.CommentDao;
 import cn.edu.nju.movietubeserver.model.domain.SimpleMovieInfo;
@@ -62,10 +61,11 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
         Map<Integer, SimpleUser> simpleUserMap)
     {
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(QueryBuilders.boolQuery()
-            .must(QueryBuilders.matchQuery(Comment.MOVIE_ID, String.valueOf(movieId)))
-            .must(QueryBuilders.matchQuery(Comment.PARENT_COMMENT_ID, ESIndexFieldValue.Comment.NO_PARENT_COMMENT_ID)))
+            .must(QueryBuilders.matchQuery(ESIndexFieldKey.Comment.MOVIE_ID, String.valueOf(movieId)))
+            .must(QueryBuilders.matchQuery(ESIndexFieldKey.Comment.PARENT_COMMENT_ID,
+                ESIndexFieldValue.Comment.NO_PARENT_COMMENT_ID)))
             .withPageable(PageRequest.of(pageNo, pageSize))
-            .withSort(SortBuilders.fieldSort(Comment.CREATE_TIME + KEYWORD_SUFFIX).order(SortOrder.ASC))
+            .withSort(SortBuilders.fieldSort(ESIndexFieldKey.Comment.CREATE_TIME + KEYWORD_SUFFIX).order(SortOrder.ASC))
             .build();
         return search(searchQuery).map(dto -> convertToRootComment(dto, simpleUserMap));
     }
@@ -75,10 +75,10 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
         String rootCommentId, Map<Integer, SimpleUser> simpleUserMap)
     {
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(QueryBuilders.boolQuery()
-            .must(QueryBuilders.matchQuery(Comment.MOVIE_ID, String.valueOf(movieId)))
-            .must(QueryBuilders.matchQuery(Comment.ROOT_COMMENT_ID, rootCommentId)))
+            .must(QueryBuilders.matchQuery(ESIndexFieldKey.Comment.MOVIE_ID, String.valueOf(movieId)))
+            .must(QueryBuilders.matchQuery(ESIndexFieldKey.Comment.ROOT_COMMENT_ID, rootCommentId)))
             .withPageable(PageRequest.of(pageNo, pageSize))
-            .withSort(SortBuilders.fieldSort(Comment.CREATE_TIME + KEYWORD_SUFFIX).order(SortOrder.ASC))
+            .withSort(SortBuilders.fieldSort(ESIndexFieldKey.Comment.CREATE_TIME + KEYWORD_SUFFIX).order(SortOrder.ASC))
             .build();
         return search(searchQuery).map(dto -> convertToReplyComment(dto, simpleUserMap));
     }
@@ -87,10 +87,10 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
     public Page<PostCommentDto> listUserPostComments(Integer pageNo, Integer pageSize, Integer userId,
         Map<Integer, SimpleUser> simpleUserMap)
     {
-        return termSearchByKeyword(Comment.FROM_USER_ID,
+        return termSearchByKeyword(ESIndexFieldKey.Comment.FROM_USER_ID,
             String.valueOf(userId),
             PageRequest.of(pageNo, pageSize),
-            SortBuilders.fieldSort(Comment.CREATE_TIME + KEYWORD_SUFFIX)
+            SortBuilders.fieldSort(ESIndexFieldKey.Comment.CREATE_TIME + KEYWORD_SUFFIX)
                 .order(SortOrder.DESC)).map(dto -> convertToPostComment(dto, simpleUserMap));
     }
 
@@ -98,10 +98,10 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
     public Page<ReceiveCommentDto> listUserReceiveComments(Integer pageNo, Integer pageSize, Integer userId,
         Map<Integer, SimpleUser> simpleUserMap)
     {
-        return termSearchByKeyword(Comment.TO_USER_ID,
+        return termSearchByKeyword(ESIndexFieldKey.Comment.TO_USER_ID,
             String.valueOf(userId),
             PageRequest.of(pageNo, pageSize),
-            SortBuilders.fieldSort(Comment.CREATE_TIME + KEYWORD_SUFFIX)
+            SortBuilders.fieldSort(ESIndexFieldKey.Comment.CREATE_TIME + KEYWORD_SUFFIX)
                 .order(SortOrder.DESC)).map(dto -> convertToReceiveComment(dto, simpleUserMap));
     }
 
@@ -160,10 +160,11 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
         RootCommentDto rootCommentDto = ObjectUtil.deepCloneByJson(commentDto, RootCommentDto.class);
 
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withQuery(QueryBuilders.boolQuery()
-            .must(QueryBuilders.matchQuery(Comment.MOVIE_ID, String.valueOf(rootCommentDto.getMovieId())))
-            .must(QueryBuilders.matchQuery(Comment.ROOT_COMMENT_ID, rootCommentDto.getId())))
+            .must(QueryBuilders.matchQuery(ESIndexFieldKey.Comment.MOVIE_ID, String.valueOf(rootCommentDto.getMovieId())))
+            .must(QueryBuilders.matchQuery(ESIndexFieldKey.Comment.ROOT_COMMENT_ID, rootCommentDto.getId())))
             .withPageable(PageRequest.of(0, 2))
-            .withSort(SortBuilders.fieldSort(Comment.CREATE_TIME + KEYWORD_SUFFIX).order(SortOrder.ASC)) //不加keyword的话会报错
+            .withSort(SortBuilders.fieldSort(ESIndexFieldKey.Comment.CREATE_TIME + KEYWORD_SUFFIX)
+                .order(SortOrder.ASC)) //不加keyword的话会报错
             .build();
         Page<CommentDto> replyCommentPage = search(searchQuery);
         rootCommentDto.setFromUsername(simpleUserMap.get(commentDto.getFromUserId()).getUsername());
@@ -195,7 +196,6 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
             .orElse(SimpleMovieInfo.getDefaultMovieInfo());
         receiveCommentDto.setSimpleMovieInfo(simpleMovieInfo);
 
-        // TODO
         // receiveCommentDto.setCommentURL("FIX ME");
         return receiveCommentDto;
     }
@@ -211,7 +211,6 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
             .orElse(SimpleMovieInfo.getDefaultMovieInfo());
         postCommentDto.setSimpleMovieInfo(simpleMovieInfo);
 
-        // TODO
         // postCommentDto.setCommentURL("FIX ME");
         return postCommentDto;
     }
@@ -219,8 +218,8 @@ public class CommentServiceImpl extends BaseElasticSearchServiceImpl<CommentDto,
     private List<CommentDto> listByParentId(Long movieId, String commentId)
     {
         QueryBuilder queryBuilder = QueryBuilders.boolQuery()
-            .must(QueryBuilders.matchQuery(Comment.MOVIE_ID, String.valueOf(movieId)))
-            .must(QueryBuilders.matchQuery(Comment.PARENT_COMMENT_ID, commentId));
+            .must(QueryBuilders.matchQuery(ESIndexFieldKey.Comment.MOVIE_ID, String.valueOf(movieId)))
+            .must(QueryBuilders.matchQuery(ESIndexFieldKey.Comment.PARENT_COMMENT_ID, commentId));
         return searchAll(queryBuilder);
     }
 

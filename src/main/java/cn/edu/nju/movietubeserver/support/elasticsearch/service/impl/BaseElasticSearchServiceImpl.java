@@ -1,5 +1,6 @@
 package cn.edu.nju.movietubeserver.support.elasticsearch.service.impl;
 
+import cn.edu.nju.movietubeserver.constant.ErrorMessage;
 import cn.edu.nju.movietubeserver.support.elasticsearch.dao.BaseElasticSearchDao;
 import cn.edu.nju.movietubeserver.support.elasticsearch.service.BaseElasticSearchService;
 import java.io.Serializable;
@@ -111,9 +112,9 @@ public abstract class BaseElasticSearchServiceImpl<T, E, U extends Serializable>
     @Override
     public Page<T> search(QueryBuilder queryBuilder, Pageable pageable, FieldSortBuilder fieldSortBuilder)
     {
-        Objects.requireNonNull(queryBuilder, "查询条件不能为空");
-        Objects.requireNonNull(pageable, "分页条件不能为空");
-        Objects.requireNonNull(fieldSortBuilder, "排序条件不能为空");
+        Objects.requireNonNull(queryBuilder, ErrorMessage.EMPTY_QUERY_PARAM_MESSAGE);
+        Objects.requireNonNull(pageable, ErrorMessage.EMPTY_PAGEABLE_PARAM_MESSAGE);
+        Objects.requireNonNull(fieldSortBuilder, ErrorMessage.EMPTY_SORT_PARAM_MESSAGE);
         SearchQuery query = new NativeSearchQueryBuilder().withQuery(queryBuilder) // 搜索条件
             .withPageable(pageable) // 分页
             .withSort(fieldSortBuilder) // 排序
@@ -124,14 +125,14 @@ public abstract class BaseElasticSearchServiceImpl<T, E, U extends Serializable>
     @Override
     public Page<T> search(SearchQuery searchQuery)
     {
-        Objects.requireNonNull(searchQuery, "查询条件不能为空");
+        Objects.requireNonNull(searchQuery, ErrorMessage.EMPTY_QUERY_PARAM_MESSAGE);
         return getBaseElasticSearchDao().search(searchQuery).map(this::convert);
     }
 
     @Override
     public List<T> searchAll(QueryBuilder queryBuilder)
     {
-        Objects.requireNonNull(queryBuilder, "查询条件不能为空");
+        Objects.requireNonNull(queryBuilder, ErrorMessage.EMPTY_QUERY_PARAM_MESSAGE);
         return StreamSupport.stream(getBaseElasticSearchDao().search(queryBuilder).spliterator(), false)
             .map(this::convert)
             .collect(Collectors.toList());

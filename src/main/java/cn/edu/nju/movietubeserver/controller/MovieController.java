@@ -1,7 +1,7 @@
 package cn.edu.nju.movietubeserver.controller;
 
 import cn.edu.nju.movietubeserver.api.MovieAPI;
-import cn.edu.nju.movietubeserver.constant.ESIndexFieldKey.Movie;
+import cn.edu.nju.movietubeserver.constant.ESIndexFieldKey;
 import cn.edu.nju.movietubeserver.model.domain.MovieIndexBean;
 import cn.edu.nju.movietubeserver.model.dto.MovieDto;
 import cn.edu.nju.movietubeserver.service.MovieService;
@@ -44,7 +44,7 @@ public class MovieController implements MovieAPI
     @GetMapping(path = "/getCountOfMoviesByTag")
     public RestApiResponse<Long> getCountOfMoviesByTag(@RequestParam String tag)
     {
-        //TODO 对tag进行校验
+        // 对tag进行校验
         movieIndexBean.setIndexName(tag);
         return RestApiResponseUtil.createSuccessResponse(movieService.getCount());
     }
@@ -55,7 +55,7 @@ public class MovieController implements MovieAPI
     public RestApiResponse<Page<MovieDto>> listByTag(@RequestParam String tag,
         @RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "20") Integer pageSize)
     {
-        //TODO 对tag进行校验
+        // 对tag进行校验
         movieIndexBean.setIndexName(tag);
         return RestApiResponseUtil.createSuccessResponse(movieService.listByPage(pageNo, pageSize)
             .map(this::setLocalRate));
@@ -82,9 +82,9 @@ public class MovieController implements MovieAPI
         return RestApiResponseUtil.createSuccessResponse(movieService.searchByKeyword(pageNo,
             pageSize,
             keyword,
-            Movie.TITLE,
-            Movie.DIRECTORS,
-            Movie.CASTS).map(this::setLocalRate));
+            ESIndexFieldKey.Movie.TITLE,
+            ESIndexFieldKey.Movie.DIRECTORS,
+            ESIndexFieldKey.Movie.CASTS).map(this::setLocalRate));
     }
 
     private MovieDto setLocalRate(MovieDto movieDto)
