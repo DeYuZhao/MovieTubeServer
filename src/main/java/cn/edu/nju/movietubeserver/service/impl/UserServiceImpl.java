@@ -1,7 +1,6 @@
 package cn.edu.nju.movietubeserver.service.impl;
 
-import cn.edu.nju.movietubeserver.constant.UserRole.RoleId;
-import cn.edu.nju.movietubeserver.constant.UserRole.RoleName;
+import cn.edu.nju.movietubeserver.constant.UserRole;
 import cn.edu.nju.movietubeserver.dao.PermissionDao;
 import cn.edu.nju.movietubeserver.dao.UserDao;
 import cn.edu.nju.movietubeserver.model.domain.SimpleUser;
@@ -41,12 +40,11 @@ public class UserServiceImpl implements UserService
 
     @Override
     public int insertUser(UserPo userPo)
-        throws DBException, ServiceException
     {
         try
         {
             userPo.setPassword(passwordEncoder.encode(userPo.getPassword()));
-            userPo.setRoleId(RoleId.USER);
+            userPo.setRoleId(UserRole.RoleId.USER);
             userDao.insertUser(userPo);
             return userPo.getUserId();
         }
@@ -66,7 +64,7 @@ public class UserServiceImpl implements UserService
         // 超级管理员拥有所有权限
         return Optional.ofNullable(userDao.getUserByEmail(email))
             .map(userPo -> setAdminPermission(userPo,
-                user -> StringUtils.equalsIgnoreCase(RoleName.ADMIN, user.getRoleName()),
+                user -> StringUtils.equalsIgnoreCase(UserRole.RoleName.ADMIN, user.getRoleName()),
                 user -> user.setPermissionCodeList(permissionDao.getAllAuthorityCode())))
             .map(UserPo::toDto)
             .orElseThrow(() -> new UsernameNotFoundException("email not found"));
@@ -74,12 +72,11 @@ public class UserServiceImpl implements UserService
 
     @Override
     public UserDto getUserByUsername(String username)
-        throws UsernameNotFoundException
     {
         // 超级管理员拥有所有权限
         return Optional.ofNullable(userDao.getUserByUsername(username))
             .map(userPo -> setAdminPermission(userPo,
-                user -> StringUtils.equalsIgnoreCase(RoleName.ADMIN, user.getRoleName()),
+                user -> StringUtils.equalsIgnoreCase(UserRole.RoleName.ADMIN, user.getRoleName()),
                 user -> user.setPermissionCodeList(permissionDao.getAllAuthorityCode())))
             .map(UserPo::toDto)
             .orElseThrow(() -> new UsernameNotFoundException("username not found"));
@@ -87,7 +84,6 @@ public class UserServiceImpl implements UserService
 
     @Override
     public int updateUserInfoById(UserPo userPo)
-        throws DBException, ServiceException
     {
         try
         {
