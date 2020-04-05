@@ -1,6 +1,7 @@
 package cn.edu.nju.movietubeserver.support.security;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -86,27 +87,19 @@ public class RSAUtil
         throws Exception
     {
         ClassPathResource resource = new ClassPathResource(filePath);
-        try (final InputStream inputStream = resource.getInputStream()){
+        try (final InputStream inputStream = resource.getInputStream())
+        {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             byte[] buffer = new byte[4096];
             int n = 0;
-            while (-1 != (n = inputStream.read(buffer))) {
+            while (-1 != (n = inputStream.read(buffer)))
+            {
                 outputStream.write(buffer, 0, n);
             }
             final byte[] keyBytes = outputStream.toByteArray();
             final String keyPEM = new String(keyBytes).replace(headReplace, "").trim().replace(tailReplace, "").trim();
             return Base64.decodeBase64(keyPEM);
         }
-//        final ResourceLoader loader = new DefaultResourceLoader();
-//        final File file = loader.getResource(filePath).getFile();
-//        try (final FileInputStream fileInputStream = new FileInputStream(file); final DataInputStream dataInputStream = new DataInputStream(
-//            fileInputStream);)
-//        {
-//            final byte[] keyBytes = new byte[(int)file.length()];
-//            dataInputStream.readFully(keyBytes);
-//            final String keyPEM = new String(keyBytes).replace(headReplace, "").trim().replace(tailReplace, "").trim();
-//            return Base64.decodeBase64(keyPEM);
-//        }
     }
 
     /**
